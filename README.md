@@ -1,5 +1,9 @@
 # Tricks to use TensorLayer
 
+* Links 
+ * [Docs](http://tensorlayer.readthedocs.io/en/latest/)
+ * [Github](https://github.com/zsdonghao/tensorlayer)
+
 * Noise layer
  * set `is_fix` to True, and build different graphs for training and testing by reusing (see PTB example)
 
