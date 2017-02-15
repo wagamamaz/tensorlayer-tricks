@@ -16,8 +16,7 @@ If you find a trick that is particularly useful in practice, please open a Pull 
  * other methods [issues7](https://github.com/zsdonghao/tensorlayer/issues/7), multiple inputs [issues31](https://github.com/zsdonghao/tensorlayer/issues/31)
 
 ## 3. Training/Testing switching and Fixing noise layer
- * set `is_fix` to True, and build different graphs for training and testing by reusing the parameters
- * e.g:
+ * set `is_fix` to True, and build different graphs for training and testing by reusing the parameters, e.g:
 ```
 def mlp(x, is_train=True, reuse=False):
     with tf.variable_scope("MLP", reuse=reuse):
