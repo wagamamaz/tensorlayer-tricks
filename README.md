@@ -42,14 +42,12 @@ cost = tl.cost.cross_entropy(logits, y_, name='cost')
 ```
 
 ## 2. Get variables for training
- * use `tl.layers.get_variables_with_name`:
- ```
- train_vars = tl.layers.get_variables_with_name('mlp', True, True)
- train_op = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(cost, var_list=train_vars)
- ```
+ * use `tl.layers.get_variables_with_name` instead of using `net.all_params`
+```
+train_vars = tl.layers.get_variables_with_name('mlp', True, True)
+train_op = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(cost, var_list=train_vars)
+```
   
-
-
 ## 3. Sentences pre-processing
  * use `tl.nlp.process_sentence` to tokenize the sentences
  * then use `tl.nlp.create_vocab` to create a vocabulary and save as txt file
