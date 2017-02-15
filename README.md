@@ -44,6 +44,7 @@ net_test, _ = mlp(x, is_train=False, reuse=True)
 
 cost = tl.cost.cross_entropy(logits, y_, name='cost')
 ```
+ * alternatively, use `network.all_drop` to control the training/testing phase see [tutorial_mnist.py](https://github.com/zsdonghao/tensorlayer/blob/master/example/tutorial_mnist.py)
 
 ## 4. Get variables for training
  * use `tl.layers.get_variables_with_name` instead of using `net.all_params`
