@@ -10,7 +10,11 @@ If you find a trick that is particularly useful in practice, please open a Pull 
  * use `git clone https://github.com/zsdonghao/tensorlayer.git` to download the whole repository, then copy the `tensorlayer` folder into your project, so you can keep your TL version and edit the source code easily
  * as TL is growing very fast, if you want to use `pip` install, then install the master version 
 
-## 2. Noise layer
+## 2. Conversion between TF and TL
+ * TF to TL : use `InputLayer`
+ * TL to TF : use `network.outputs`
+
+## 3. Noise layer
  * set `is_fix` to True, and build different graphs for training and testing by reusing the parameters
  * e.g:
 ```
@@ -41,7 +45,7 @@ net_test, _ = mlp(x, is_train=False, reuse=True)
 cost = tl.cost.cross_entropy(logits, y_, name='cost')
 ```
 
-## 2. Get variables for training
+## 4. Get variables for training
  * use `tl.layers.get_variables_with_name` instead of using `net.all_params`
 ```
 train_vars = tl.layers.get_variables_with_name('mlp', True, True)
@@ -49,10 +53,12 @@ train_op = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(cost, var_list=
 ```
  * this method can also use to freeze some layers during training, just simply don't get some variables
   
-## 3. Sentences pre-processing
+## 5. Sentences pre-processing
  * use `tl.nlp.process_sentence` to tokenize the sentences
  * then use `tl.nlp.create_vocab` to create a vocabulary and save as txt file
  * finally use `tl.nlp.Vocabulary` to create a vocabulary object from the txt vocabulary file created by `tl.nlp.create_vocab`
+
+
 
 ## Links of TensorLayer 
  * [Docs](http://tensorlayer.readthedocs.io/en/latest/)
