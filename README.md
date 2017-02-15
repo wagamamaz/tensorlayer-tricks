@@ -58,7 +58,12 @@ train_op = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(cost, var_list=
  * then use `tl.nlp.create_vocab` to create a vocabulary and save as txt file
  * finally use `tl.nlp.Vocabulary` to create a vocabulary object from the txt vocabulary file created by `tl.nlp.create_vocab`
 
-
+## 6. Dynamic RNN and tokenization
+ * use `tl.layers.retrieve_seq_length_op2` to automatically compute the sequence length from placeholder, and feed it to the `sequence_length` of `DynamicRNNLayer`
+ * prepare the tokenized sentence by zero padding as follow:
+``` 
+b_sentence_ids = tl.prepro.pad_sequences(b_sentence_ids, padding='post')
+```
 
 ## Links of TensorLayer 
  * [Docs](http://tensorlayer.readthedocs.io/en/latest/)
