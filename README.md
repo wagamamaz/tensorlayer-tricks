@@ -19,7 +19,7 @@ If you find a trick that is particularly useful in practice, please open a Pull 
  * e.g:
 ```
 def mlp(x, is_train=True, reuse=False):
-    with tf.variable_scope("mlp", reuse=reuse):
+    with tf.variable_scope("MLP", reuse=reuse):
         tl.layers.set_name_reuse(reuse)
         net_in_x = InputLayer(x, name='n_input/x')
   
@@ -49,7 +49,7 @@ cost = tl.cost.cross_entropy(logits, y_, name='cost')
 ## 4. Get variables for training
  * use `tl.layers.get_variables_with_name` instead of using `net.all_params`
 ```
-train_vars = tl.layers.get_variables_with_name('mlp', True, True)
+train_vars = tl.layers.get_variables_with_name('MLP', True, True)
 train_op = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(cost, var_list=train_vars)
 ```
  * this method can also use to freeze some layers during training, just simply don't get some variables
