@@ -7,18 +7,18 @@ Here are a summary of the tricks to use TensorLayer, you can also find more tric
 If you find a trick that is particularly useful in practice, please open a Pull Request to add it to the document. If we find it to be reasonable and verified, we will merge it in.
 
 ## 1. Installation
- * to keep your TL version and edit the source code easily, you can download the whole repository by excuting `git clone https://github.com/zsdonghao/tensorlayer.git` in your terminal, then copy the `tensorlayer` folder into your project 
- * as TL is growing very fast, if you want to use `pip` install, we suggest you to install the master version 
- * for NLP application, you will need to install [NLTK and NLTK data](http://www.nltk.org/install.html)
+ * To keep your TL version and edit the source code easily, you can download the whole repository by excuting `git clone https://github.com/zsdonghao/tensorlayer.git` in your terminal, then copy the `tensorlayer` folder into your project 
+ * As TL is growing very fast, if you want to use `pip` install, we suggest you to install the master version 
+ * For NLP application, you will need to install [NLTK and NLTK data](http://www.nltk.org/install.html)
 
 ## 2. Interaction between TF and TL
  * TF to TL : use [InputLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#input-layer)
  * TL to TF : use [network.outputs](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer)
- * other methods [issues7](https://github.com/zsdonghao/tensorlayer/issues/7), multiple inputs [issues31](https://github.com/zsdonghao/tensorlayer/issues/31)
+ * Other methods [issues7](https://github.com/zsdonghao/tensorlayer/issues/7), multiple inputs [issues31](https://github.com/zsdonghao/tensorlayer/issues/31)
 
 ## 3. Training/Testing switching
- * use [network.all_drop](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer) to control the training/testing phase (for [DropoutLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#dropout-layer) only) see [tutorial_mnist.py](https://github.com/zsdonghao/tensorlayer/blob/master/example/tutorial_mnist.py) and [Understand Basic layer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer)
- * alternatively, set `is_fix` to `True` in [DropoutLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#dropout-layer), and build different graphs for training/testing by reusing the parameters. you can also set different `batch_size` and noise probability for different graphs. this method is the best when you use [GaussianNoiseLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#gaussian-noise-layer), [BatchNormLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#batch-normalization) and etc. here is an example:
+ * Use [network.all_drop](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer) to control the training/testing phase (for [DropoutLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#dropout-layer) only) see [tutorial_mnist.py](https://github.com/zsdonghao/tensorlayer/blob/master/example/tutorial_mnist.py) and [Understand Basic layer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer)
+ * Alternatively, set `is_fix` to `True` in [DropoutLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#dropout-layer), and build different graphs for training/testing by reusing the parameters. You can also set different `batch_size` and noise probability for different graphs. This method is the best when you use [GaussianNoiseLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#gaussian-noise-layer), [BatchNormLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#batch-normalization) and etc. Here is an example:
 ```
 def mlp(x, is_train=True, reuse=False):
     with tf.variable_scope("MLP", reuse=reuse):
@@ -49,41 +49,41 @@ cost = tl.cost.cross_entropy(logits, y_, name='cost')
 
 
 ## 4. Get variables for training
- * use [tl.layers.get_variables_with_name](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#get-variables-with-name) instead of using [net.all_params](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer)
+ * Use [tl.layers.get_variables_with_name](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#get-variables-with-name) instead of using [net.all_params](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer)
 ```
 train_vars = tl.layers.get_variables_with_name('MLP', True, True)
 train_op = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(cost, var_list=train_vars)
 ```
- * this method can also be used to freeze some layers during training, just simply don't get some variables
- * other methods [issues17](https://github.com/zsdonghao/tensorlayer/issues/17), [issues26](https://github.com/zsdonghao/tensorlayer/issues/26), [FQA](http://tensorlayer.readthedocs.io/en/latest/user/more.html#exclude-some-layers-from-training)
+ * This method can also be used to freeze some layers during training, just simply don't get some variables
+ * Other methods [issues17](https://github.com/zsdonghao/tensorlayer/issues/17), [issues26](https://github.com/zsdonghao/tensorlayer/issues/26), [FQA](http://tensorlayer.readthedocs.io/en/latest/user/more.html#exclude-some-layers-from-training)
   
 ## 5. Pre-trained CNN and Resnet
 * Pre-trained CNN
- * many applications make need pre-trained CNN model
+ * Many applications make need pre-trained CNN model
  * TL examples provide pre-trained VGG16, VGG19, Inception and etc : [TL/example](https://github.com/zsdonghao/tensorlayer/tree/master/example)
  * [tl.layers.SlimNetsLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#connect-tf-slim) allows you to use all [Tf-Slim pre-trained models](https://github.com/tensorflow/models/tree/master/slim)
 * Resnet
- * implement by "for" loop [issues85](https://github.com/zsdonghao/tensorlayer/issues/85)
- * other methods [by @ritchieng](https://github.com/ritchieng/wideresnet-tensorlayer)
+ * Implement by "for" loop [issues85](https://github.com/zsdonghao/tensorlayer/issues/85)
+ * Other methods [by @ritchieng](https://github.com/ritchieng/wideresnet-tensorlayer)
 
 ## 6. Data augmentation
-* use TFRecord, good wrapper: [imageflow](https://github.com/HamedMP/ImageFlow)
-* use python-threading with [tl.prepro.threading_data](http://tensorlayer.readthedocs.io/en/latest/modules/prepro.html#threading) and [the functions for images augmentation](http://tensorlayer.readthedocs.io/en/latest/modules/prepro.html#images) see [tutorial_image_preprocess.py](https://github.com/zsdonghao/tensorlayer/blob/master/example/tutorial_image_preprocess.py)
+* Use TFRecord, good wrapper: [imageflow](https://github.com/HamedMP/ImageFlow)
+* Use python-threading with [tl.prepro.threading_data](http://tensorlayer.readthedocs.io/en/latest/modules/prepro.html#threading) and [the functions for images augmentation](http://tensorlayer.readthedocs.io/en/latest/modules/prepro.html#images) see [tutorial_image_preprocess.py](https://github.com/zsdonghao/tensorlayer/blob/master/example/tutorial_image_preprocess.py)
   
 ## 6. Sentences tokenization
- * use [tl.nlp.process_sentence](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#process-sentence) to tokenize the sentences, [NLTK and NLTK data](http://www.nltk.org/install.html) is required
- * then use [tl.nlp.create_vocab](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#create-vocabulary) to create a vocabulary and save as txt file (it will return a [tl.nlp.SimpleVocabulary object](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#simple-vocabulary-class) for word to id only)
- * finally use [tl.nlp.Vocabulary](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#vocabulary-class) to create a vocabulary object from the txt vocabulary file created by `tl.nlp.create_vocab`
- * more pre-processing functions for sentences in [tl.prepro](http://tensorlayer.readthedocs.io/en/latest/modules/prepro.html#sequence) and [tl.nlp](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html)
+ * Use [tl.nlp.process_sentence](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#process-sentence) to tokenize the sentences, [NLTK and NLTK data](http://www.nltk.org/install.html) is required
+ * Then use [tl.nlp.create_vocab](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#create-vocabulary) to create a vocabulary and save as txt file (it will return a [tl.nlp.SimpleVocabulary object](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#simple-vocabulary-class) for word to id only)
+ * Finally use [tl.nlp.Vocabulary](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#vocabulary-class) to create a vocabulary object from the txt vocabulary file created by `tl.nlp.create_vocab`
+ * More pre-processing functions for sentences in [tl.prepro](http://tensorlayer.readthedocs.io/en/latest/modules/prepro.html#sequence) and [tl.nlp](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html)
 
 
 ## 7. Dynamic RNN and sequence length
- * use [tl.layers.retrieve_seq_length_op2](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#compute-sequence-length-2) to automatically compute the sequence length from placeholder, and feed it to the `sequence_length` of [DynamicRNNLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#dynamic-rnn-layer)
- * apply zero padding on a batch of tokenized sentences as follow:
+ * Use [tl.layers.retrieve_seq_length_op2](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#compute-sequence-length-2) to automatically compute the sequence length from placeholder, and feed it to the `sequence_length` of [DynamicRNNLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#dynamic-rnn-layer)
+ * Apply zero padding on a batch of tokenized sentences as follow:
 ``` 
 b_sentence_ids = tl.prepro.pad_sequences(b_sentence_ids, padding='post')
 ```
- * other methods [issues18](https://github.com/zsdonghao/tensorlayer/issues/18)
+ * Other methods [issues18](https://github.com/zsdonghao/tensorlayer/issues/18)
 
 ## 8. Common problems
  * Matplotlib issue arise when importing TensorLayer [issues](https://github.com/zsdonghao/tensorlayer/issues/79), [FQA](http://tensorlayer.readthedocs.io/en/latest/user/more.html#visualization)
