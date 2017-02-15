@@ -79,7 +79,8 @@ b_sentence_ids = tl.prepro.pad_sequences(b_sentence_ids, padding='post')
  * Matplotlib issue arise when importing TensorLayer [issues](https://github.com/zsdonghao/tensorlayer/issues/79), [FQA](http://tensorlayer.readthedocs.io/en/latest/user/more.html#visualization)
 
 ## Useful links
- * [Docs](http://tensorlayer.readthedocs.io/en/latest/), [中文文档](http://tensorlayercn.readthedocs.io/zh/latest/), [Github](https://github.com/zsdonghao/tensorlayer)
+ * TL official sites: [Docs](http://tensorlayer.readthedocs.io/en/latest/), [中文文档](http://tensorlayercn.readthedocs.io/zh/latest/), [Github](https://github.com/zsdonghao/tensorlayer)
+ * [Learning Deep Learning with TF and TL ](https://github.com/wagamamaz/tensorflow-tutorial)
 
 ## Author
  - Zhang Rui
