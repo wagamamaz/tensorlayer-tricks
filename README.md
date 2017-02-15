@@ -1,5 +1,11 @@
 # Tricks to use TensorLayer
 
+While research in Deep Learning continues to improve the world, we use a bunch of tricks to use TensorLayer day to day.
+
+Here are a summary of some of the tricks.
+
+If you find a trick that is particularly useful in practice, please open a Pull Request to add it to the document. If we find it to be reasonable and verified, we will merge it in.
+
 * Links 
  * [Docs](http://tensorlayer.readthedocs.io/en/latest/)
  * [Github](https://github.com/zsdonghao/tensorlayer)
