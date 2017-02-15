@@ -69,7 +69,7 @@ train_op = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(cost, var_list=
 
 ## 7. Dynamic RNN and sequence length
  * use [tl.layers.retrieve_seq_length_op2](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#compute-sequence-length-2) to automatically compute the sequence length from placeholder, and feed it to the `sequence_length` of [DynamicRNNLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#dynamic-rnn-layer)
- * prepare the tokenized sentence by zero padding as follow:
+ * apply zero padding on a batch of tokenized sentences as follow:
 ``` 
 b_sentence_ids = tl.prepro.pad_sequences(b_sentence_ids, padding='post')
 ```
