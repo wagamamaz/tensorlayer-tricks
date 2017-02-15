@@ -16,9 +16,9 @@ If you find a trick that is particularly useful in practice, please open a Pull 
  * TL to TF : use [network.outputs](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer)
  * other methods [issues7](https://github.com/zsdonghao/tensorlayer/issues/7), multiple inputs [issues31](https://github.com/zsdonghao/tensorlayer/issues/31)
 
-## 3. Training/Testing switching and Fixing noise layer
- * use [network.all_drop](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer) to control the training/testing phase (for dropout only) see [tutorial_mnist.py](https://github.com/zsdonghao/tensorlayer/blob/master/example/tutorial_mnist.py) and [Understand Basic layer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer)
- * alternatively, set `is_fix` to True, and build different graphs for training and testing by reusing the parameters, e.g:
+## 3. Training/Testing switching
+ * use [network.all_drop](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer) to control the training/testing phase (for [DropoutLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#dropout-layer) only) see [tutorial_mnist.py](https://github.com/zsdonghao/tensorlayer/blob/master/example/tutorial_mnist.py) and [Understand Basic layer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer)
+ * alternatively, set `is_fix` to True in [DropoutLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#dropout-layer), and build different graphs for training/testing by reusing the parameters. you can also set different `batch_size` and noise probability for different graphs. this method is the best when you use [GaussianNoiseLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#gaussian-noise-layer), [BatchNormLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#batch-normalization) and etc. here is an example:
 ```
 def mlp(x, is_train=True, reuse=False):
     with tf.variable_scope("MLP", reuse=reuse):
