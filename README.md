@@ -64,6 +64,10 @@ train_op = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(cost, var_list=
 * Resnet
  * implement by "for" loop [issues85](https://github.com/zsdonghao/tensorlayer/issues/85)
  * other methods [by @ritchieng](https://github.com/ritchieng/wideresnet-tensorlayer)
+
+## 6. Data augmentation
+* use TFRecord, good wrapper: [imageflow](https://github.com/HamedMP/ImageFlow)
+* use python-threading with [tl.prepro.threading_data](http://tensorlayer.readthedocs.io/en/latest/modules/prepro.html#threading) and [the functions for images augmentation](http://tensorlayer.readthedocs.io/en/latest/modules/prepro.html#images) see [tutorial_image_preprocess.py](https://github.com/zsdonghao/tensorlayer/blob/master/example/tutorial_image_preprocess.py)
   
 ## 6. Sentences tokenization
  * use [tl.nlp.process_sentence](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#process-sentence) to tokenize the sentences, [NLTK and NLTK data](http://www.nltk.org/install.html) is required
