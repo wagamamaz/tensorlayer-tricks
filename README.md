@@ -14,7 +14,7 @@ If you find a trick that is particularly useful in practice, please open a Pull 
  * TF to TL : use `InputLayer`
  * TL to TF : use `network.outputs`
 
-## 3. Noise layer
+## 3. Training/Testing switching and Fixing noise layer
  * set `is_fix` to True, and build different graphs for training and testing by reusing the parameters
  * e.g:
 ```
