@@ -1,6 +1,6 @@
 # How to use TensorLayer
 
-While research in Deep Learning continues to improve the world, we use a bunch of tricks to use TensorLayer day to day.
+While research in Deep Learning continues to improve the world, we use a bunch of tricks to implement algorithm with TensorLayer day to day.
 
 Here are a summary of the tricks to use TensorLayer, you can also find more tricks in [FQA](http://tensorlayer.readthedocs.io/en/latest/user/more.html#fqa).
 
