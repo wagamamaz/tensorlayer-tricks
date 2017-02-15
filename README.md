@@ -7,8 +7,8 @@ Here are a summary of some of the tricks, you can also find some tricks in [FQA]
 If you find a trick that is particularly useful in practice, please open a Pull Request to add it to the document. If we find it to be reasonable and verified, we will merge it in.
 
 ## 1. Installation
- * Don't install via `pip`, `git clone https://github.com/zsdonghao/tensorlayer.git` then copy the `tensorlayer` folder into your project, so you can keep your TL version and edit the source code easily
- * If you want to use `pip` install, then install the master version as TL is growing very fast
+ * use `git clone https://github.com/zsdonghao/tensorlayer.git` to download the whole repository, then copy the `tensorlayer` folder into your project, so you can keep your TL version and edit the source code easily
+ * as TL is growing very fast, if you want to use `pip` install, then install the master version 
 
 ## 2. Noise layer
  * set `is_fix` to True, and build different graphs for training and testing by reusing the parameters
