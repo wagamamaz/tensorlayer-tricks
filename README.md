@@ -47,6 +47,7 @@ cost = tl.cost.cross_entropy(logits, y_, name='cost')
 train_vars = tl.layers.get_variables_with_name('mlp', True, True)
 train_op = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(cost, var_list=train_vars)
 ```
+ * this method can also use to freeze some layers during training, just simply don't get some variables
   
 ## 3. Sentences pre-processing
  * use `tl.nlp.process_sentence` to tokenize the sentences
