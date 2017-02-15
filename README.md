@@ -17,7 +17,8 @@ If you find a trick that is particularly useful in practice, please open a Pull 
  * other methods [issues7](https://github.com/zsdonghao/tensorlayer/issues/7), multiple inputs [issues31](https://github.com/zsdonghao/tensorlayer/issues/31)
 
 ## 3. Training/Testing switching and Fixing noise layer
- * set `is_fix` to True, and build different graphs for training and testing by reusing the parameters, e.g:
+ * use [network.all_drop](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer) to control the training/testing phase (for dropout only) see [tutorial_mnist.py](https://github.com/zsdonghao/tensorlayer/blob/master/example/tutorial_mnist.py)
+ * alternatively, set `is_fix` to True, and build different graphs for training and testing by reusing the parameters, e.g:
 ```
 def mlp(x, is_train=True, reuse=False):
     with tf.variable_scope("MLP", reuse=reuse):
@@ -45,7 +46,7 @@ net_test, _ = mlp(x, is_train=False, reuse=True)
 
 cost = tl.cost.cross_entropy(logits, y_, name='cost')
 ```
- * alternatively, use [network.all_drop](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer) to control the training/testing phase (for dropout only) see [tutorial_mnist.py](https://github.com/zsdonghao/tensorlayer/blob/master/example/tutorial_mnist.py)
+
 
 ## 4. Get variables for training
  * use [tl.layers.get_variables_with_name](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#get-variables-with-name) instead of using [net.all_params](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer)
