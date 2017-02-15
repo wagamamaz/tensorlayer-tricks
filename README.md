@@ -54,7 +54,7 @@ train_vars = tl.layers.get_variables_with_name('MLP', True, True)
 train_op = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(cost, var_list=train_vars)
 ```
  * this method can also be used to freeze some layers during training, just simply don't get some variables
- * other methods [issues17](https://github.com/zsdonghao/tensorlayer/issues/17) [issues26](https://github.com/zsdonghao/tensorlayer/issues/26)
+ * other methods [issues17](https://github.com/zsdonghao/tensorlayer/issues/17), [issues26](https://github.com/zsdonghao/tensorlayer/issues/26), [FQA](http://tensorlayer.readthedocs.io/en/latest/user/more.html#exclude-some-layers-from-training)
   
 ## 5. Sentences tokenization
  * use `tl.nlp.process_sentence` to tokenize the sentences
@@ -67,10 +67,10 @@ train_op = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(cost, var_list=
 ``` 
 b_sentence_ids = tl.prepro.pad_sequences(b_sentence_ids, padding='post')
 ```
- * other methods [issues18](https://github.com/zsdonghao/tensorlayer/issues/18), [FQA](http://tensorlayer.readthedocs.io/en/latest/user/more.html#visualization)
+ * other methods [issues18](https://github.com/zsdonghao/tensorlayer/issues/18)
 
 ## 7. Common problems
- * Matplotlib issue arise when importing TensorLayer [issues](https://github.com/zsdonghao/tensorlayer/issues/79)
+ * Matplotlib issue arise when importing TensorLayer [issues](https://github.com/zsdonghao/tensorlayer/issues/79), [FQA](http://tensorlayer.readthedocs.io/en/latest/user/more.html#visualization)
 
 ## Links of TensorLayer 
  * [Docs](http://tensorlayer.readthedocs.io/en/latest/), [中文文档](http://tensorlayercn.readthedocs.io/zh/latest/), [Github](https://github.com/zsdonghao/tensorlayer)
