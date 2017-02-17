@@ -29,7 +29,7 @@ def mlp(x, is_train=True, reuse=False):
       net = DropoutLayer(net, 0.8, True, is_train, 'drop2')
       net = DenseLayer(net, 800, tf.nn.relu, 'dense2')
       net = DropoutLayer(net, 0.8, True, is_train, 'drop3')
-      net = DenseLayer(net, 10, tf.identity, 'n_ho/dense')
+      net = DenseLayer(net, 10, tf.identity, 'out')
       logits = net.outputs
       net.outputs = tf.nn.sigmoid(net.outputs)
       return net, logits
