@@ -22,28 +22,21 @@ If you find a trick that is particularly useful in practice, please open a Pull 
 ```python
 def mlp(x, is_train=True, reuse=False):
     with tf.variable_scope("MLP", reuse=reuse):
-        tl.layers.set_name_reuse(reuse)
-        net_in_x = InputLayer(x, name='n_input/x')
-  
-        net_in = DropoutLayer(net_in, keep=0.8, is_fix=True, is_train=is_train, name='n_in/drop')
-        net_h0 = DenseLayer(net_in, n_units=800, act=tf.nn.relu, name='n_h0/dense')
-
-        net_h0 = DropoutLayer(net_h0, keep=0.8, is_fix=True, is_train=is_train, name='n_h0/drop')
-        net_h1 = DenseLayer(net_h0, n_units=800, act=tf.nn.relu, name='n_h1/conv2d')
-
-        net_h1 = DropoutLayer(net_h1, keep=0.8, is_fix=True, is_train=is_train, name='n_h1/drop')
-        net_ho = DenseLayer(net_h1, n_units=10, act=tf.identity, name='n_ho/dense')
-
-        logits = net_ho.outputs
-        net_ho.outputs = tf.nn.sigmoid(net_ho.outputs)
-        return net_ho, logits
-      
+      tl.layers.set_name_reuse(reuse)
+      net = InputLayer(x, name='in')
+      net = DropoutLayer(net, 0.8, True, is_train, 'drop1')
+      net = DenseLayer(net, 800, tf.nn.relu, 'dense1')
+      net = DropoutLayer(net, 0.8, True, is_train, 'drop2')
+      net = DenseLayer(net, 800, tf.nn.relu, 'dense2')
+      net = DropoutLayer(net, 0.8, True, is_train, 'drop3')
+      net = DenseLayer(net, 10, tf.identity, 'n_ho/dense')
+      logits = net.outputs
+      net.outputs = tf.nn.sigmoid(net.outputs)
+      return net, logits
 x = tf.placeholder(tf.float32, shape=[None, 784], name='x')
 y_ = tf.placeholder(tf.int64, shape=[None, ], name='y_')
-
 net_train, logits = mlp(x, is_train=True, reuse=False)
 net_test, _ = mlp(x, is_train=False, reuse=True)
-
 cost = tl.cost.cross_entropy(logits, y_, name='cost')
 ```
 
