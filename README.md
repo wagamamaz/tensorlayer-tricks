@@ -56,7 +56,7 @@ train_op = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(cost, var_list=
  * TL examples provide pre-trained VGG16, VGG19, Inception and etc : [TL/example](https://github.com/zsdonghao/tensorlayer/tree/master/example)
  * [tl.layers.SlimNetsLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#connect-tf-slim) allows you to use all [Tf-Slim pre-trained models](https://github.com/tensorflow/models/tree/master/slim)
 * Resnet
- * Implement by "for" loop [issues85](https://github.com/zsdonghao/tensorlayer/issues/85)
+ * Implemented by "for" loop [issues85](https://github.com/zsdonghao/tensorlayer/issues/85)
  * Other methods [by @ritchieng](https://github.com/ritchieng/wideresnet-tensorlayer)
 
 ## 6. Data augmentation
