@@ -89,7 +89,7 @@ b_sentence_ids = tl.prepro.pad_sequences(b_sentence_ids, padding='post')
  * Matplotlib issue arise when importing TensorLayer [issues](https://github.com/zsdonghao/tensorlayer/issues/79), [FQA](http://tensorlayer.readthedocs.io/en/latest/user/more.html#visualization)
  
 ## 9. Other tricks
- * Disable console logging: if you are building a very deep network and don't want to view them in the terminal, disable `print`:
+ * Disable console logging: if you are building a very deep network and don't want to view them in the terminal, disable `print` by `with tl.ops.suppress_stdout():`:
 ```
 print("You can see me")
 with tl.ops.suppress_stdout():
