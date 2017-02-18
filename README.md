@@ -93,6 +93,7 @@ print("You can see me")
 ## Useful links
  * TL official sites: [Docs](http://tensorlayer.readthedocs.io/en/latest/), [中文文档](http://tensorlayercn.readthedocs.io/zh/latest/), [Github](https://github.com/zsdonghao/tensorlayer)
  * [Learning Deep Learning with TF and TL ](https://github.com/wagamamaz/tensorflow-tutorial)
+ * Follow [zsdonghao](https://github.com/zsdonghao) for further examples
 
 ## Author
  - Zhang Rui
