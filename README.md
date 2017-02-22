@@ -91,7 +91,7 @@ print("You can see me")
 ```
 
 ## 11. Compatibility
- * [RNN cell_fn](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html): use [tf.contrib.rnn.{cell_fn}](https://www.tensorflow.org/api_docs/python/) for TF1.0+, and [tf.nn.rnn_cell.{cell_fn}](https://www.tensorflow.org/versions/r0.11/api_docs/python/) for TF1.0-
+ * [RNN cell_fn](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html): use [tf.contrib.rnn.{cell_fn}](https://www.tensorflow.org/api_docs/python/) for TF1.0+, or [tf.nn.rnn_cell.{cell_fn}](https://www.tensorflow.org/versions/r0.11/api_docs/python/) for TF1.0-
  * [cross_entropy](http://tensorlayer.readthedocs.io/en/latest/modules/cost.html): have to give a unique name for TF1.0+
  
 ## Useful links
