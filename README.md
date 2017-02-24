@@ -81,7 +81,7 @@ b_sentence_ids = tl.prepro.pad_sequences(b_sentence_ids, padding='post')
 ## 9. Common problems
  * Matplotlib issue arise when importing TensorLayer [issues](https://github.com/zsdonghao/tensorlayer/issues/79), [FQA](http://tensorlayer.readthedocs.io/en/latest/user/more.html#visualization)
  
-## 10. Other tricks
+## 11. Other tricks
  * Disable console logging: if you are building a very deep network and don't want to view them in the terminal, disable `print` by `with tl.ops.suppress_stdout():`:
 ```
 print("You can see me")
@@ -89,8 +89,11 @@ with tl.ops.suppress_stdout():
     print("You can't see me") # build your graphs here
 print("You can see me")
 ```
+## 12. Compatibility with Keras and TF-Slim
+ * Keras to TL: [KerasLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#connect-keras)
+ * TF-Slim to TL: [SlimNetsLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#connect-tf-slim) (you can use all Google's pre-trained convolutional models with this layer !!!)
 
-## 11. Compatibility
+## 13. Compatibility with different TF version
  * [RNN cell_fn](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html): use [tf.contrib.rnn.{cell_fn}](https://www.tensorflow.org/api_docs/python/) for TF1.0+, or [tf.nn.rnn_cell.{cell_fn}](https://www.tensorflow.org/versions/r0.11/api_docs/python/) for TF1.0-
  * [cross_entropy](http://tensorlayer.readthedocs.io/en/latest/modules/cost.html): have to give a unique name for TF1.0+
  
