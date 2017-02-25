@@ -97,7 +97,7 @@ with tl.ops.suppress_stdout():
 print("You can see me")
 ```
 ## 12. Compatibility with Keras and TF-Slim
-TL can interact with other TF wrappers, so if you find some codes implemented by other wrapper, you can just use it !
+TL can interact with other TF wrappers, so if you find some codes or models implemented by other wrapper, you can just use it !
  * Keras to TL: [KerasLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#connect-keras) (if you find some codes implemented by Keras, just use it. example [here](https://github.com/zsdonghao/tensorlayer/blob/master/example/tutorial_keras.py))
  * TF-Slim to TL: [SlimNetsLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#connect-tf-slim) (you can use all Google's pre-trained convolutional models with this layer !!!)
  * I think more libraries will be compatible with TL
