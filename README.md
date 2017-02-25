@@ -65,8 +65,8 @@ train_op = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(cost, var_list=
 
 ## 7. Batch of data
 * If your data size is small enough to feed into the memory of your machine.
- * Use ［tl.iterate.minibatches](http://tensorlayer.readthedocs.io/en/latest/modules/iterate.html#tensorlayer.iterate.minibatches) to shuffle and return the examples and labels by the given batchsize.
- * For time-series data use [tl.iterate.seq_minibatches, tl.iterate.seq_minibatches2, tl.iterate.ptb_iterator](http://tensorlayer.readthedocs.io/en/latest/modules/iterate.html#time-series)
+ * Use [tl.iterate.minibatches](http://tensorlayer.readthedocs.io/en/latest/modules/iterate.html#tensorlayer.iterate.minibatches) to shuffle and return the examples and labels by the given batchsize.
+ * For time-series data, use [tl.iterate.seq_minibatches, tl.iterate.seq_minibatches2, tl.iterate.ptb_iterator and etc](http://tensorlayer.readthedocs.io/en/latest/modules/iterate.html#time-series)
 * If your data size is very large
  * Use [tl.prepro.threading_data](http://tensorlayer.readthedocs.io/en/latest/modules/prepro.html#tensorlayer.prepro.threading_data) to read a batch of data at the beginning of every step
  * Use TFRecord again, see [cifar10 and tfrecord examples](https://github.com/zsdonghao/tensorlayer/tree/master/example)
