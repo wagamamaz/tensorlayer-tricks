@@ -80,7 +80,7 @@ import tensorflow as tf
 import tensorlayer as tl
 from keras.layers import *
 from tensorlayer.layers import *
-def keras_block(x):
+def my_fn(x):
     x = Dropout(0.8)(x)
     x = Dense(800, activation='relu')(x)
     x = Dropout(0.5)(x)
@@ -90,8 +90,8 @@ def keras_block(x):
     return logits
 
 network = InputLayer(x, name='input')
-network = KerasLayer(network, keras_layer=keras_block, name='keras')
-
+network = LambdaLayer(network, my_fn, name='keras')
+...
 ```
 
 
