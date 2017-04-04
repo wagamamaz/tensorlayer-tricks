@@ -71,14 +71,38 @@ train_op = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(cost, var_list=
  * Use [tl.prepro.threading_data](http://tensorlayer.readthedocs.io/en/latest/modules/prepro.html#tensorlayer.prepro.threading_data) to read a batch of data at the beginning of every step
  * Use TFRecord again, see [cifar10 and tfrecord examples](https://github.com/zsdonghao/tensorlayer/tree/master/example)
 
+## 8. Customized layer
+* 1. [Write a TL layer directly](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#your-layer)
+* 2. Use [LambdaLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#lambda-layer), it can also accept functions with new variables. With this layer you can connect all third party TF libraries and your customized function to TL. Here is an example of using Keras and TL together.
 
-## 8. Sentences tokenization
+```python
+import tensorflow as tf
+import tensorlayer as tl
+from keras.layers import *
+from tensorlayer.layers import *
+def keras_block(x):
+    x = Dropout(0.8)(x)
+    x = Dense(800, activation='relu')(x)
+    x = Dropout(0.5)(x)
+    x = Dense(800, activation='relu')(x)
+    x = Dropout(0.5)(x)
+    logits = Dense(10, activation='linear')(x)
+    return logits
+
+network = InputLayer(x, name='input')
+network = KerasLayer(network, keras_layer=keras_block, name='keras')
+
+```
+
+
+
+## 9. Sentences tokenization
  * Use [tl.nlp.process_sentence](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#process-sentence) to tokenize the sentences, [NLTK and NLTK data](http://www.nltk.org/install.html) is required
  * Then use [tl.nlp.create_vocab](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#create-vocabulary) to create a vocabulary and save as txt file (it will return a [tl.nlp.SimpleVocabulary object](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#simple-vocabulary-class) for word to id only)
  * Finally use [tl.nlp.Vocabulary](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#vocabulary-class) to create a vocabulary object from the txt vocabulary file created by `tl.nlp.create_vocab`
  * More pre-processing functions for sentences in [tl.prepro](http://tensorlayer.readthedocs.io/en/latest/modules/prepro.html#sequence) and [tl.nlp](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html)
 
-## 9. Dynamic RNN and sequence length
+## 10. Dynamic RNN and sequence length
  * Use [tl.layers.retrieve_seq_length_op2](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#compute-sequence-length-2) to automatically compute the sequence length from placeholder, and feed it to the `sequence_length` of [DynamicRNNLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#dynamic-rnn-layer)
  * Apply zero padding on a batch of tokenized sentences as follow:
 ```python
@@ -86,10 +110,10 @@ b_sentence_ids = tl.prepro.pad_sequences(b_sentence_ids, padding='post')
 ```
  * Other methods [issues18](https://github.com/zsdonghao/tensorlayer/issues/18)
 
-## 10. Common problems
+## 11. Common problems
  * Matplotlib issue arise when importing TensorLayer [issues](https://github.com/zsdonghao/tensorlayer/issues/79), [FQA](http://tensorlayer.readthedocs.io/en/latest/user/more.html#visualization)
  
-## 11. Other tricks
+## 12. Other tricks
  * Disable console logging: if you are building a very deep network and don't want to view them in the terminal, disable `print` by `with tl.ops.suppress_stdout():`:
 ```
 print("You can see me")
@@ -97,13 +121,13 @@ with tl.ops.suppress_stdout():
     print("You can't see me") # build your graphs here
 print("You can see me")
 ```
-## 12. Compatibility with other TF wrappers
+## 13. Compatibility with other TF wrappers
 TL can interact with other TF wrappers, which means if you find some codes or models implemented by other wrappers, you can just use it !
  * Keras to TL: [KerasLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#connect-keras) (if you find some codes implemented by Keras, just use it. example [here](https://github.com/zsdonghao/tensorlayer/blob/master/example/tutorial_keras.py))
  * TF-Slim to TL: [SlimNetsLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#connect-tf-slim) (you can use all Google's pre-trained convolutional models with this layer !!!)
  * I think more libraries will be compatible with TL
 
-## 13. Compatibility with different TF versions
+## 14. Compatibility with different TF versions
  * [RNN cell_fn](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html): use [tf.contrib.rnn.{cell_fn}](https://www.tensorflow.org/api_docs/python/) for TF1.0+, or [tf.nn.rnn_cell.{cell_fn}](https://www.tensorflow.org/versions/r0.11/api_docs/python/) for TF1.0-
  * [cross_entropy](http://tensorlayer.readthedocs.io/en/latest/modules/cost.html): have to give a unique name for TF1.0+
  
