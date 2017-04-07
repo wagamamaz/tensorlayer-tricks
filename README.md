@@ -25,11 +25,11 @@ def mlp(x, is_train=True, reuse=False):
       tl.layers.set_name_reuse(reuse)
       net = InputLayer(x, name='in')
       net = DropoutLayer(net, 0.8, True, is_train, 'drop1')
-      net = DenseLayer(net, 800, tf.nn.relu, 'dense1')
+      net = DenseLayer(net, n_units=800, act=tf.nn.relu, name='dense1')
       net = DropoutLayer(net, 0.8, True, is_train, 'drop2')
-      net = DenseLayer(net, 800, tf.nn.relu, 'dense2')
+      net = DenseLayer(net, n_units=800, act=tf.nn.relu, name='dense2')
       net = DropoutLayer(net, 0.8, True, is_train, 'drop3')
-      net = DenseLayer(net, 10, tf.identity, 'out')
+      net = DenseLayer(net, n_units=10, act=tf.identity, name='out')
       logits = net.outputs
       net.outputs = tf.nn.sigmoid(net.outputs)
       return net, logits
