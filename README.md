@@ -41,7 +41,7 @@ cost = tl.cost.cross_entropy(logits, y_, name='cost')
 ```
 
 
-## 4. Get variables for training
+## 4. Get variables and outputs
  * Use [tl.layers.get_variables_with_name](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#get-variables-with-name) instead of using [net.all_params](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer)
 ```python
 train_vars = tl.layers.get_variables_with_name('MLP', True, True)
@@ -49,6 +49,12 @@ train_op = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(cost, var_list=
 ```
  * This method can also be used to freeze some layers during training, just simply don't get some variables
  * Other methods [issues17](https://github.com/zsdonghao/tensorlayer/issues/17), [issues26](https://github.com/zsdonghao/tensorlayer/issues/26), [FQA](http://tensorlayer.readthedocs.io/en/latest/user/more.html#exclude-some-layers-from-training)
+
+ * Use [tl.layers.get_layers_with_name](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#get-layers-with-name) to get list of activation outputs from a network.
+```python
+layers = tl.layers.get_layers_with_name(network, "MLP", True)
+```
+ * This method usually be used for activation regularization.
   
 ## 5. Pre-trained CNN and Resnet
 * Pre-trained CNN
