@@ -6,6 +6,8 @@ Here are a summary of the tricks to use TensorLayer, you can also find more tric
 
 If you find a trick that is particularly useful in practice, please open a Pull Request to add it to the document. If we find it to be reasonable and verified, we will merge it in.
 
+- 🇨🇳 [《深度学习：一起玩转TensorLayer》](https://item.jd.com/12286942.html)已上架。
+
 ## 1. Installation
  * To keep your TL version and edit the source code easily, you can download the whole repository by excuting `git clone https://github.com/zsdonghao/tensorlayer.git` in your terminal, then copy the `tensorlayer` folder into your project 
  * As TL is growing very fast, if you want to use `pip` install, we suggest you to install the master version 
