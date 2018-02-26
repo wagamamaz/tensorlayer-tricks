@@ -102,8 +102,6 @@ network = LambdaLayer(network, my_fn, name='keras')
 ...
 ```
 
-
-
 ## 9. Sentences tokenization
  * Use [tl.nlp.process_sentence](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#process-sentence) to tokenize the sentences, [NLTK and NLTK data](http://www.nltk.org/install.html) is required
  * Then use [tl.nlp.create_vocab](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#create-vocabulary) to create a vocabulary and save as txt file (it will return a [tl.nlp.SimpleVocabulary object](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#simple-vocabulary-class) for word to id only)
@@ -121,21 +119,13 @@ b_sentence_ids = tl.prepro.pad_sequences(b_sentence_ids, padding='post')
 ## 11. Common problems
  * Matplotlib issue arise when importing TensorLayer [issues](https://github.com/zsdonghao/tensorlayer/issues/79), [FQA](http://tensorlayer.readthedocs.io/en/latest/user/more.html#visualization)
  
-## 12. Other tricks
- * Disable console logging: if you are building a very deep network and don't want to view them in the terminal, disable `print` by `with tl.ops.suppress_stdout():`:
-```
-print("You can see me")
-with tl.ops.suppress_stdout():
-    print("You can't see me") # build your graphs here
-print("You can see me")
-```
-## 13. Compatibility with other TF wrappers
+## 12. Compatibility with other TF wrappers
 TL can interact with other TF wrappers, which means if you find some codes or models implemented by other wrappers, you can just use it !
  * Keras to TL: [KerasLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#connect-keras) (if you find some codes implemented by Keras, just use it. example [here](https://github.com/zsdonghao/tensorlayer/blob/master/example/tutorial_keras.py))
  * TF-Slim to TL: [SlimNetsLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#connect-tf-slim) (you can use all Google's pre-trained convolutional models with this layer !!!)
  * I think more libraries will be compatible with TL
 
-## 14. Compatibility with different TF versions
+## 13. Compatibility with different TF versions
  * [RNN cell_fn](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html): use [tf.contrib.rnn.{cell_fn}](https://www.tensorflow.org/api_docs/python/) for TF1.0+, or [tf.nn.rnn_cell.{cell_fn}](https://www.tensorflow.org/versions/r0.11/api_docs/python/) for TF1.0-
  * [cross_entropy](http://tensorlayer.readthedocs.io/en/latest/modules/cost.html): have to give a unique name for TF1.0+
  
