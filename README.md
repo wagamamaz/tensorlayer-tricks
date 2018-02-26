@@ -154,11 +154,27 @@ Then you can map word to ID or vice verse as follow:
  * More pre-processing functions for sentences in [tl.prepro](http://tensorlayer.readthedocs.io/en/latest/modules/prepro.html#sequence) and [tl.nlp](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html)
 
 ## 10. Dynamic RNN and sequence length
- * Use [tl.layers.retrieve_seq_length_op2](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#compute-sequence-length-2) to automatically compute the sequence length from placeholder, and feed it to the `sequence_length` of [DynamicRNNLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#dynamic-rnn-layer)
  * Apply zero padding on a batch of tokenized sentences as follow:
 ```python
-b_sentence_ids = tl.prepro.pad_sequences(b_sentence_ids, padding='post')
+>>> sequences = [[1,1,1,1,1],[2,2,2],[3,3]]
+>>> sequences = tl.prepro.pad_sequences(sequences, maxlen=None, 
+...         dtype='int32', padding='post', truncating='pre', value=0.)
+... [[1 1 1 1 1]
+...  [2 2 2 0 0]
+...  [3 3 0 0 0]]
 ```
+
+ * Use [tl.layers.retrieve_seq_length_op2](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#compute-sequence-length-2) to automatically compute the sequence length from placeholder, and feed it to the `sequence_length` of [DynamicRNNLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#dynamic-rnn-layer)
+
+```python
+>>> data = [[1,2,0,0,0], [1,2,3,0,0], [1,2,6,1,0]]
+>>> o = tl.layers.retrieve_seq_length_op2(data)
+>>> sess = tf.InteractiveSession()
+>>> tl.layers.initialize_global_variables(sess)
+>>> print(o.eval())
+... [2 3 4]
+```
+
  * Other methods [issues18](https://github.com/zsdonghao/tensorlayer/issues/18)
 
 ## 11. Common problems
