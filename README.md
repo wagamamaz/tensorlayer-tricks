@@ -104,8 +104,53 @@ network = LambdaLayer(network, my_fn, name='keras')
 
 ## 9. Sentences tokenization
  * Use [tl.nlp.process_sentence](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#process-sentence) to tokenize the sentences, [NLTK and NLTK data](http://www.nltk.org/install.html) is required
+ 
+```python
+>>> captions = ["one two , three", "four five five"] # 2个 句 子 
+>>> processed_capts = []
+>>> for c in captions:
+>>>    c = tl.nlp.process_sentence(c, start_word="<S>", end_word="</S>")
+>>>    processed_capts.append(c)
+>>> print(processed_capts)
+... [['<S>', 'one', 'two', ',', 'three', '</S>'],
+... ['<S>', 'four', 'five', 'five', '</S>']]
+```
+ 
  * Then use [tl.nlp.create_vocab](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#create-vocabulary) to create a vocabulary and save as txt file (it will return a [tl.nlp.SimpleVocabulary object](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#simple-vocabulary-class) for word to id only)
+
+```python
+>>> tl.nlp.create_vocab(processed_capts, word_counts_output_file='vocab.txt', min_word_count=1)
+... [TL] Creating vocabulary.
+... Total words: 8
+... Words in vocabulary: 8
+... Wrote vocabulary file: vocab.txt
+```
+ 
  * Finally use [tl.nlp.Vocabulary](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#vocabulary-class) to create a vocabulary object from the txt vocabulary file created by `tl.nlp.create_vocab`
+ 
+```python
+>>> vocab = tl.nlp.Vocabulary('vocab.txt', start_word="<S>", end_word="</S>", unk_word="<UNK>")
+... INFO:tensorflow:Initializing vocabulary from file: vocab.txt
+... [TL] Vocabulary from vocab.txt : <S> </S> <UNK>
+... vocabulary with 10 words (includes start_word, end_word, unk_word)
+...   start_id: 2
+...   end_id: 3
+...   unk_id: 9
+...   pad_id: 0
+```
+
+Then you can map word to ID or vice verse as follow:
+```python
+>>> vocab.id_to_word(2)
+... 'one'
+>>> vocab.word_to_id('one')
+... 2
+>>> vocab.id_to_word(100)
+... '<UNK>'
+>>> vocab.word_to_id('hahahaha')
+... 9
+```
+ 
  * More pre-processing functions for sentences in [tl.prepro](http://tensorlayer.readthedocs.io/en/latest/modules/prepro.html#sequence) and [tl.nlp](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html)
 
 ## 10. Dynamic RNN and sequence length
