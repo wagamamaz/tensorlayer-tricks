@@ -19,7 +19,7 @@ If you find a trick that is particularly useful in practice, please open a Pull 
  * Other methods [issues7](https://github.com/zsdonghao/tensorlayer/issues/7), multiple inputs [issues31](https://github.com/zsdonghao/tensorlayer/issues/31)
 
 ## 3. Training/Testing switching
- * Use [network.all_drop](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer) to control the training/testing phase (for [DropoutLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#dropout-layer) only) see [tutorial_mnist.py](https://github.com/zsdonghao/tensorlayer/blob/master/example/tutorial_mnist.py) and [Understand Basic layer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer)
+ * Use [network.all_drop](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer) to control the training/testing phase (for [DropoutLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#dropout-layer) only) see [this example](https://github.com/tensorlayer/tensorlayer/blob/master/examples/basic_tutorials/tutorial_mlp_dropout1.py) and [Understand Basic layer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer)
  * Alternatively, set `is_fix` to `True` in [DropoutLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#dropout-layer), and build different graphs for training/testing by reusing the parameters. You can also set different `batch_size` and noise probability for different graphs. This method is the best when you use [GaussianNoiseLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#gaussian-noise-layer), [BatchNormLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#batch-normalization) and etc. Here is an example:
 ```python
 def mlp(x, is_train=True, reuse=False):
@@ -71,12 +71,12 @@ layers = tl.layers.get_layers_with_name(network, "MLP", True)
 * Use python-threading with [tl.prepro.threading_data](http://tensorlayer.readthedocs.io/en/latest/modules/prepro.html#threading) and [the functions for images augmentation](http://tensorlayer.readthedocs.io/en/latest/modules/prepro.html#images) see [tutorial_image_preprocess.py](https://github.com/zsdonghao/tensorlayer/blob/master/example/tutorial_image_preprocess.py)
 
 ## 7. Batch of data
-* If your data size is small enough to feed into the memory of your machine.
+* 1. If your dataset is large:
+ * Use TFRecord or TF DatasetAPI if your data size is large, see [cifar10 and tfrecord examples](https://github.com/tensorlayer/tensorlayer/tree/master/examples/basic_tutorials)
+* 2. If your data size is small enough to feed into the memory of your machine:
  * Use [tl.iterate.minibatches](http://tensorlayer.readthedocs.io/en/latest/modules/iterate.html#tensorlayer.iterate.minibatches) to shuffle and return the examples and labels by the given batchsize.
+ * Use [tl.prepro.threading_data](http://tensorlayer.readthedocs.io/en/latest/modules/prepro.html#tensorlayer.prepro.threading_data) to read a batch of data at the beginning of every step, the performance is slow but good for small dataset.
  * For time-series data, use [tl.iterate.seq_minibatches, tl.iterate.seq_minibatches2, tl.iterate.ptb_iterator and etc](http://tensorlayer.readthedocs.io/en/latest/modules/iterate.html#time-series)
-* If your data size is very large
- * Use [tl.prepro.threading_data](http://tensorlayer.readthedocs.io/en/latest/modules/prepro.html#tensorlayer.prepro.threading_data) to read a batch of data at the beginning of every step
- * Use TFRecord again, see [cifar10 and tfrecord examples](https://github.com/zsdonghao/tensorlayer/tree/master/example)
 
 ## 8. Customized layer
 * 1. [Write a TL layer directly](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#your-layer)
@@ -204,4 +204,4 @@ TL can interact with other TF wrappers, which means if you find some codes or mo
 
 ## Author
  - Zhang Rui
- - You
+ - Hao Dong
