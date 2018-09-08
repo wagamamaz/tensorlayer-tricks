@@ -13,13 +13,14 @@ If you find a trick that is particularly useful in practice, please open a Pull 
  * For NLP application, you will need to install [NLTK and NLTK data](http://www.nltk.org/install.html)
 
 ## 2. Interaction between TF and TL
- * TF to TL : use [InputLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#input-layer)
+ * TF to TL : use [InputLayer](https://tensorlayer.readthedocs.io/en/latest/modules/layers.html#input-layers)
  * TL to TF : use [network.outputs](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer)
- * Other methods [issues7](https://github.com/zsdonghao/tensorlayer/issues/7), multiple inputs [issues31](https://github.com/zsdonghao/tensorlayer/issues/31)
+ * Other methods [issues7](https://github.com/tensorlayer/tensorlayer/issues/7), multiple inputs [issues31](https://github.com/tensorlayer/tensorlayer/issues/31)
 
 ## 3. Training/Testing switching
  * Use [network.all_drop](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer) to control the training/testing phase (for [DropoutLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#dropout-layer) only) see [this example](https://github.com/tensorlayer/tensorlayer/blob/master/examples/basic_tutorials/tutorial_mlp_dropout1.py) and [Understand Basic layer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer)
- * Alternatively, set `is_fix` to `True` in [DropoutLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#dropout-layer), and build different graphs for training/testing by reusing the parameters. You can also set different `batch_size` and noise probability for different graphs. This method is the best when you use [GaussianNoiseLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#gaussian-noise-layer), [BatchNormLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#batch-normalization) and etc. Here is an example:
+ * Alternatively, set `is_fix` to `True` in [DropoutLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#dropout-layer), and build different graphs for training/testing by reusing the parameters. You can also set different `batch_size` and noise probability for different graphs. This method is the best when you use [GaussianNoiseLayer](https://tensorlayer.readthedocs.io/en/stable/modules/layers.html#tensorlayer.layers.GaussianNoiseLayer), [BatchNormLayer](https://tensorlayer.readthedocs.io/en/stable/modules/layers.html#normalization-layers) and etc. Here is an example:
+
 ```python
 def mlp(x, is_train=True, reuse=False):
     with tf.variable_scope("MLP", reuse=reuse):
@@ -40,46 +41,91 @@ net_test, _ = mlp(x, is_train=False, reuse=True)
 cost = tl.cost.cross_entropy(logits, y_, name='cost')
 ```
 
+More in [here](https://github.com/tensorlayer/tensorlayer/blob/master/examples/basic_tutorials/tutorial_mlp_dropout2.py).
 
 ## 4. Get variables and outputs
- * Use [tl.layers.get_variables_with_name](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#get-variables-with-name) instead of using [net.all_params](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#understand-basic-layer)
+ * Use [tl.layers.get_variables_with_name](https://tensorlayer.readthedocs.io/en/stable/modules/layers.html#get-variables-with-name) instead of using [net.all_params](https://tensorlayer.readthedocs.io/en/stable/modules/layers.html#understanding-the-basic-layer)
 ```python
 train_vars = tl.layers.get_variables_with_name('MLP', True, True)
 train_op = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(cost, var_list=train_vars)
 ```
  * This method can also be used to freeze some layers during training, just simply don't get some variables
  * Other methods [issues17](https://github.com/zsdonghao/tensorlayer/issues/17), [issues26](https://github.com/zsdonghao/tensorlayer/issues/26), [FQA](http://tensorlayer.readthedocs.io/en/latest/user/more.html#exclude-some-layers-from-training)
-
- * Use [tl.layers.get_layers_with_name](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#get-layers-with-name) to get list of activation outputs from a network.
+ * Use [tl.layers.get_layers_with_name](https://tensorlayer.readthedocs.io/en/stable/modules/layers.html#name-scope-and-sharing-parameters) to get list of activation outputs from a network.
 ```python
 layers = tl.layers.get_layers_with_name(network, "MLP", True)
 ```
  * This method usually be used for activation regularization.
   
-## 5. Pre-trained CNN and Resnet
+## 5. Data augmentation for large dataset
+If your dataset is large, data loading and data augmentation will become the bottomneck and slow down the training.
+To speed up the data processing you can:
+
+* Use TFRecord or TF DatasetAPI, see [cifar10 examples](https://github.com/tensorlayer/tensorlayer/tree/master/examples/basic_tutorials)
+
+## 6. Data augmentation for small dataset
+If your data size is small enough to feed into the memory of your machine, and data augmentation is simple. To debug easily, you can:
+
+* Use [tl.iterate.minibatches](http://tensorlayer.readthedocs.io/en/latest/modules/iterate.html#tensorlayer.iterate.minibatches) to shuffle and return the examples and labels by the given batchsize.
+* Use [tl.prepro.threading_data](http://tensorlayer.readthedocs.io/en/latest/modules/prepro.html#tensorlayer.prepro.threading_data) to read a batch of data at the beginning of every step, the performance is slow but good for small dataset.
+* For time-series data, use [tl.iterate.seq_minibatches, tl.iterate.seq_minibatches2, tl.iterate.ptb_iterator and etc](http://tensorlayer.readthedocs.io/en/latest/modules/iterate.html#time-series)
+
+## 7. Pre-trained CNN and Resnet
 * Pre-trained CNN
  * Many applications make need pre-trained CNN model
- * TL examples provide pre-trained VGG16, VGG19, Inception and etc : [TL/example](https://github.com/zsdonghao/tensorlayer/tree/master/example)
- * [tl.layers.SlimNetsLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#connect-tf-slim) allows you to use all [Tf-Slim pre-trained models](https://github.com/tensorflow/models/tree/master/slim)
+ * TL provides pre-trained VGG16, VGG19, MobileNet, SqueezeNet and etc : [tl.models](https://tensorlayer.readthedocs.io/en/stable/modules/models.html#)
+ * [tl.layers.SlimNetsLayer](https://tensorlayer.readthedocs.io/en/stable/modules/layers.html#external-libraries-layers) allows you to use all [Tf-Slim pre-trained models](https://github.com/tensorflow/models/tree/master/research/slim#pre-trained-models) and [tensorlayer/pretrained-models](https://github.com/tensorlayer/pretrained-models)
 * Resnet
  * Implemented by "for" loop [issues85](https://github.com/zsdonghao/tensorlayer/issues/85)
  * Other methods [by @ritchieng](https://github.com/ritchieng/wideresnet-tensorlayer)
 
-## 6. Data augmentation
-* Use TFRecord, see [cifar10 and tfrecord examples](https://github.com/zsdonghao/tensorlayer/tree/master/example); good wrapper: [imageflow](https://github.com/HamedMP/ImageFlow)
-* Use python-threading with [tl.prepro.threading_data](http://tensorlayer.readthedocs.io/en/latest/modules/prepro.html#threading) and [the functions for images augmentation](http://tensorlayer.readthedocs.io/en/latest/modules/prepro.html#images) see [tutorial_image_preprocess.py](https://github.com/zsdonghao/tensorlayer/blob/master/example/tutorial_image_preprocess.py)
+## 8. Using `tl.models`
 
-## 7. Batch of data
-* 1. If your dataset is large:
- * Use TFRecord or TF DatasetAPI if your data size is large, see [cifar10 and tfrecord examples](https://github.com/tensorlayer/tensorlayer/tree/master/examples/basic_tutorials)
-* 2. If your data size is small enough to feed into the memory of your machine:
- * Use [tl.iterate.minibatches](http://tensorlayer.readthedocs.io/en/latest/modules/iterate.html#tensorlayer.iterate.minibatches) to shuffle and return the examples and labels by the given batchsize.
- * Use [tl.prepro.threading_data](http://tensorlayer.readthedocs.io/en/latest/modules/prepro.html#tensorlayer.prepro.threading_data) to read a batch of data at the beginning of every step, the performance is slow but good for small dataset.
- * For time-series data, use [tl.iterate.seq_minibatches, tl.iterate.seq_minibatches2, tl.iterate.ptb_iterator and etc](http://tensorlayer.readthedocs.io/en/latest/modules/iterate.html#time-series)
+* Use pretrained VGG16 for ImageNet classification
+```python
+x = tf.placeholder(tf.float32, [None, 224, 224, 3])
+# get the whole model
+vgg = tl.models.VGG16(x)
+# restore pre-trained VGG parameters
+sess = tf.InteractiveSession()
+vgg.restore_params(sess)
+# use for inferencing
+probs = tf.nn.softmax(vgg.outputs)
+```
 
-## 8. Customized layer
-* 1. [Write a TL layer directly](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#your-layer)
-* 2. Use [LambdaLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#lambda-layer), it can also accept functions with new variables. With this layer you can connect all third party TF libraries and your customized function to TL. Here is an example of using Keras and TL together.
+* Extract features with VGG16 and retrain a classifier with 100 classes
+```python
+x = tf.placeholder(tf.float32, [None, 224, 224, 3])
+# get VGG without the last layer
+vgg = tl.models.VGG16(x, end_with='fc2_relu')
+# add one more layer
+net = tl.layers.DenseLayer(vgg, 100, name='out')
+# initialize all parameters
+sess = tf.InteractiveSession()
+tl.layers.initialize_global_variables(sess)
+# restore pre-trained VGG parameters
+vgg.restore_params(sess)
+# train your own classifier (only update the last layer)
+train_params = tl.layers.get_variables_with_name('out')
+```
+
+* Reuse model
+
+```python
+x1 = tf.placeholder(tf.float32, [None, 224, 224, 3])
+x2 = tf.placeholder(tf.float32, [None, 224, 224, 3])
+# get VGG without the last layer
+vgg1 = tl.models.VGG16(x1, end_with='fc2_relu')
+# reuse the parameters of vgg1 with different input
+vgg2 = tl.models.VGG16(x2, end_with='fc2_relu', reuse=True)
+# restore pre-trained VGG parameters (as they share parameters, we don’t need to restore vgg2)
+sess = tf.InteractiveSession()
+vgg1.restore_params(sess)
+```
+
+## 9. Customized layer
+* 1. [Write a TL layer directly](https://tensorlayer.readthedocs.io/en/stable/modules/layers.html#customizing-layers)
+* 2. Use [LambdaLayer](https://tensorlayer.readthedocs.io/en/stable/modules/layers.html#lambda-layers), it can also accept functions with new variables. With this layer you can connect all third party TF libraries and your customized function to TL. Here is an example of using Keras and TL together.
 
 ```python
 import tensorflow as tf
@@ -100,8 +146,8 @@ network = LambdaLayer(network, my_fn, name='keras')
 ...
 ```
 
-## 9. Sentences tokenization
- * Use [tl.nlp.process_sentence](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#process-sentence) to tokenize the sentences, [NLTK and NLTK data](http://www.nltk.org/install.html) is required
+## 10. Sentences tokenization
+ * Use [tl.nlp.process_sentence](https://tensorlayer.readthedocs.io/en/stable/modules/nlp.html#tensorlayer.nlp.process_sentence) to tokenize the sentences, [NLTK and NLTK data](http://www.nltk.org/install.html) is required
  
 ```python
 >>> captions = ["one two , three", "four five five"] # 2个 句 子 
@@ -114,7 +160,7 @@ network = LambdaLayer(network, my_fn, name='keras')
 ... ['<S>', 'four', 'five', 'five', '</S>']]
 ```
  
- * Then use [tl.nlp.create_vocab](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#create-vocabulary) to create a vocabulary and save as txt file (it will return a [tl.nlp.SimpleVocabulary object](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#simple-vocabulary-class) for word to id only)
+ * Then use [tl.nlp.create_vocab](https://tensorlayer.readthedocs.io/en/stable/modules/nlp.html#tensorlayer.nlp.create_vocab) to create a vocabulary and save as txt file (it will return a [tl.nlp.SimpleVocabulary object](https://tensorlayer.readthedocs.io/en/stable/modules/nlp.html#tensorlayer.nlp.SimpleVocabulary) for word to id only)
 
 ```python
 >>> tl.nlp.create_vocab(processed_capts, word_counts_output_file='vocab.txt', min_word_count=1)
@@ -124,7 +170,7 @@ network = LambdaLayer(network, my_fn, name='keras')
 ... Wrote vocabulary file: vocab.txt
 ```
  
- * Finally use [tl.nlp.Vocabulary](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html#vocabulary-class) to create a vocabulary object from the txt vocabulary file created by `tl.nlp.create_vocab`
+ * Finally use [tl.nlp.Vocabulary](https://tensorlayer.readthedocs.io/en/stable/modules/nlp.html#vocabulary-class) to create a vocabulary object from the txt vocabulary file created by `tl.nlp.create_vocab`
  
 ```python
 >>> vocab = tl.nlp.Vocabulary('vocab.txt', start_word="<S>", end_word="</S>", unk_word="<UNK>")
@@ -149,9 +195,9 @@ Then you can map word to ID or vice verse as follow:
 ... 9
 ```
  
- * More pre-processing functions for sentences in [tl.prepro](http://tensorlayer.readthedocs.io/en/latest/modules/prepro.html#sequence) and [tl.nlp](http://tensorlayer.readthedocs.io/en/latest/modules/nlp.html)
+ * More pre-processing functions for sentences in [tl.prepro](https://tensorlayer.readthedocs.io/en/stable/modules/prepro.html#sequence) and [tl.nlp](https://tensorlayer.readthedocs.io/en/stable/modules/nlp.html)
 
-## 10. Dynamic RNN and sequence length
+## 11. Dynamic RNN and sequence length
  * Apply zero padding on a batch of tokenized sentences as follow:
 ```python
 >>> sequences = [[1,1,1,1,1],[2,2,2],[3,3]]
@@ -162,7 +208,7 @@ Then you can map word to ID or vice verse as follow:
 ...  [3 3 0 0 0]]
 ```
 
- * Use [tl.layers.retrieve_seq_length_op2](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#compute-sequence-length-2) to automatically compute the sequence length from placeholder, and feed it to the `sequence_length` of [DynamicRNNLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#dynamic-rnn-layer)
+ * Use [tl.layers.retrieve_seq_length_op2](https://tensorlayer.readthedocs.io/en/stable/modules/layers.html#tensorlayer.layers.retrieve_seq_length_op2) to automatically compute the sequence length from placeholder, and feed it to the `sequence_length` of [DynamicRNNLayer](https://tensorlayer.readthedocs.io/en/stable/modules/layers.html#dynamic-rnn-layer)
 
 ```python
 >>> data = [[1,2,0,0,0], [1,2,3,0,0], [1,2,6,1,0]]
@@ -173,31 +219,25 @@ Then you can map word to ID or vice verse as follow:
 ... [2 3 4]
 ```
 
- * Other methods [issues18](https://github.com/zsdonghao/tensorlayer/issues/18)
+ * Other methods [issues18](https://github.com/tensorlayer/tensorlayer/issues/18)
 
-## 11. Save models
+## 12. Save models
 
-- 1.`tl.files.save_npz` save all model parameters (weights) into a a list of array, restore using `tl.files.load_and_assign_npz`
-- 2. `tl.files.save_npz_dict` save all model  parameters (weights) into a dictionary of array, key is the parameter name, restore  using `tl.files.load_and_assign_npz_dict`
-- 3. `tl.files.save_ckpt` save  all model parameters (weights) into TensorFlow ckpt file, restore using `tl.files.load_ckpt`.
+- 1. [tl.files.save_npz](https://tensorlayer.readthedocs.io/en/stable/modules/files.html#save-network-into-list-npz) save all model parameters (weights) into a a list of array, restore using `tl.files.load_and_assign_npz`
+- 2. [tl.files.save_npz_dict](https://tensorlayer.readthedocs.io/en/stable/modules/files.html#save-network-into-dict-npz) save all model  parameters (weights) into a dictionary of array, key is the parameter name, restore  using `tl.files.load_and_assign_npz_dict`
+- 3. [tl.files.save_ckpt](https://tensorlayer.readthedocs.io/en/stable/modules/files.html#save-network-into-ckpt) save  all model parameters (weights) into TensorFlow ckpt file, restore using `tl.files.load_ckpt`.
 
-## 12. Common problems
- * Matplotlib issue arise when importing TensorLayer [issues](https://github.com/zsdonghao/tensorlayer/issues/79), [FQA](http://tensorlayer.readthedocs.io/en/latest/user/more.html#visualization)
- 
 ## 13. Compatibility with other TF wrappers
 TL can interact with other TF wrappers, which means if you find some codes or models implemented by other wrappers, you can just use it !
- * Keras to TL: [KerasLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#connect-keras) (if you find some codes implemented by Keras, just use it. example [here](https://github.com/zsdonghao/tensorlayer/blob/master/example/tutorial_keras.py))
- * TF-Slim to TL: [SlimNetsLayer](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html#connect-tf-slim) (you can use all Google's pre-trained convolutional models with this layer !!!)
- * I think more libraries will be compatible with TL
-
-## 14. Compatibility with different TF versions
- * [RNN cell_fn](http://tensorlayer.readthedocs.io/en/latest/modules/layers.html): use [tf.contrib.rnn.{cell_fn}](https://www.tensorflow.org/api_docs/python/) for TF1.0+, or [tf.nn.rnn_cell.{cell_fn}](https://www.tensorflow.org/versions/r0.11/api_docs/python/) for TF1.0-
- * [cross_entropy](http://tensorlayer.readthedocs.io/en/latest/modules/cost.html): have to give a unique name for TF1.0+
+ * Other TensorFlow layer implementations can be connected into TensorLayer via [LambdaLayer](https://tensorlayer.readthedocs.io/en/stable/modules/layers.html#lambda-layers), see example [here](https://github.com/tensorlayer/tensorlayer/tree/master/examples/keras_tfslim))
+ * TF-Slim to TL: [SlimNetsLayer](https://tensorlayer.readthedocs.io/en/stable/modules/layers.html#tensorlayer.layers.SlimNetsLayer) (you can use all Google's pre-trained convolutional models with this layer !!!)
  
-
+## 14. Common problems
+ * Matplotlib issue arise when importing TensorLayer [issues](https://github.com/tensorlayer/tensorlayer/issues/79), see [FQA](https://tensorlayer.readthedocs.io/en/stable/user/faq.html#visualization)
  
 ## Useful links
- * TL official sites: [Docs](http://tensorlayer.readthedocs.io/en/latest/), [中文文档](http://tensorlayercn.readthedocs.io/zh/latest/), [Github](https://github.com/zsdonghao/tensorlayer)
+ * [Awesome-TensorLayer](https://github.com/tensorlayer/awesome-tensorlayer) for all examples
+ * TL official sites: [Docs](https://tensorlayer.readthedocs.io), [中文文档](https://tensorlayercn.readthedocs.io), [Github](https://github.com/tensorlayer/tensorlayer)
  * [Learning Deep Learning with TF and TL ](https://github.com/wagamamaz/tensorflow-tutorial)
  * Follow [zsdonghao](https://github.com/zsdonghao) for further examples
 
