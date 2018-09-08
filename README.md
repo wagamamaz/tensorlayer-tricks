@@ -2,8 +2,7 @@
 
 While research in Deep Learning continues to improve the world, we use a bunch of tricks to implement algorithms with TensorLayer day to day.
 
-Here are a summary of the tricks to use TensorLayer, you can also find more tricks in [FQA](http://tensorlayer.readthedocs.io/en/latest/user/more.html#fqa).
-
+Here are a summary of the tricks to use TensorLayer.
 If you find a trick that is particularly useful in practice, please open a Pull Request to add it to the document. If we find it to be reasonable and verified, we will merge it in.
 
 - 🇨🇳 [《深度学习：一起玩转TensorLayer》](https://item.jd.com/12286942.html)已上架。
