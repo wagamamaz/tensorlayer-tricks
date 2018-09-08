@@ -24,7 +24,6 @@ If you find a trick that is particularly useful in practice, please open a Pull 
 ```python
 def mlp(x, is_train=True, reuse=False):
     with tf.variable_scope("MLP", reuse=reuse):
-      tl.layers.set_name_reuse(reuse)
       net = InputLayer(x, name='in')
       net = DropoutLayer(net, 0.8, True, is_train, name='drop1')
       net = DenseLayer(net, n_units=800, act=tf.nn.relu, name='dense1')
