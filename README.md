@@ -232,7 +232,8 @@ TL can interact with other TF wrappers, which means if you find some codes or mo
  * Other TensorFlow layer implementations can be connected into TensorLayer via [LambdaLayer](https://tensorlayer.readthedocs.io/en/stable/modules/layers.html#lambda-layers), see example [here](https://github.com/tensorlayer/tensorlayer/tree/master/examples/keras_tfslim))
  * TF-Slim to TL: [SlimNetsLayer](https://tensorlayer.readthedocs.io/en/stable/modules/layers.html#tensorlayer.layers.SlimNetsLayer) (you can use all Google's pre-trained convolutional models with this layer !!!)
  
-## 14. Common problems
+## 14. Others
+ * `BatchNormLayer`'s `decay` default is 0.9, set to 0.999 for large dataset.
  * Matplotlib issue arise when importing TensorLayer [issues](https://github.com/tensorlayer/tensorlayer/issues/79), see [FQA](https://tensorlayer.readthedocs.io/en/stable/user/faq.html#visualization)
  
 ## Useful links
